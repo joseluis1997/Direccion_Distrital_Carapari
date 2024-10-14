@@ -21,7 +21,7 @@ class ActividadesController extends Controller
      */
     public function create()
     {
-        //
+        return view('Actividades.create');
     }
 
     /**
@@ -30,6 +30,16 @@ class ActividadesController extends Controller
     public function store(Request $request)
     {
         //
+        //dd($request);
+
+        $request->validate([
+            'nombreAct' => 'required|string',
+            'fechaI' => 'required|date',
+            'fechaF' => 'required|date',
+            'descripcionA' => 'required|string',
+          ]);
+          Actividad::create($request->all());
+          return redirect()->route('actividades.index');
     }
 
     /**
@@ -37,7 +47,8 @@ class ActividadesController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $centroEd = CentrosE::findOrFail($id);
+        return view('CentrosEducacion.edit',compact('centroEd'));
     }
 
     /**
@@ -45,7 +56,8 @@ class ActividadesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $actividad = Actividad::findOrFail($id);
+        return view('Actividades.edit',compact('actividad'));
     }
 
     /**
@@ -53,7 +65,18 @@ class ActividadesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nombreAct' => 'required|string',
+            'fechaI' => 'required|date',
+            'fechaF' => 'required|date',
+            'descripcionA' => 'required|string',
+          ]);
+
+          $actividad = Actividad::findOrFail($id);
+
+          $actividad->update($request->all());
+
+          return redirect()->route('actividades.index');
     }
 
     /**
@@ -61,6 +84,8 @@ class ActividadesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $actividad = Actividad::findOrFail($id);
+        $actividad->delete();
+        return redirect()->route('actividades.index');
     }
 }

@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Actividad extends Model
 {
     use HasFactory;
-    protected $table = '_actividades';
+    protected $table = 'actividades';
+    protected $fillable = [
+        'nombreAct',
+        'fechaI',
+        'fechaF',
+        'descripcionA',
+    ];
 }
